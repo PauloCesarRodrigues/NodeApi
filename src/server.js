@@ -8,8 +8,11 @@ const server = http.createServer((req, res)=>{
   const {method, url} = req
 
   if (method === 'GET' && url === '/users'){
-    return res.end('Rota de listagem de usuários' + JSON.stringify(users))
+    return res
+    .setHeader('Content-type', 'application/json')
+    .end('Rota de listagem de usuários' + JSON.stringify(users))
   }
+
 
   if(method === 'POST' && url === '/users'){
     users.push({
@@ -17,11 +20,11 @@ const server = http.createServer((req, res)=>{
       name: 'carinha q mora logo ali',
       email: 'emaildocarinha@gmail.com'
     })
-    return res.end('Rota de criação de usuários')
+    return res.writeHead(201).end()
   }
 
 
-  return res.end('Hello World')
+  return res.writeHead(404).end()
 })
 
 server.listen(3333)
